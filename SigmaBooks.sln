@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaBooks API", "SigmaBooks\SigmaBooks API.csproj", "{369DBA26-B8DE-450D-8B96-0ED5A5206404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaBooks", "SigmaBooks\SigmaBooks.csproj", "{369DBA26-B8DE-450D-8B96-0ED5A5206404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaBooks Web Application", "SigmaBooks Web Application\SigmaBooks Web Application.csproj", "{6985E505-95AC-48A5-8296-67D556F2CD64}"
 EndProject
