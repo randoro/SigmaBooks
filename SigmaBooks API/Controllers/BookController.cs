@@ -21,14 +21,28 @@ namespace SigmaBooks_API.Controllers
             return XMLTranslator.Deserialize<BookCatalog>(booksXMLPath, out success).bookList;
         }
 
-        public IHttpActionResult GetBook(string id)
+        public IEnumerable<Book> GetBook(string id, bool caseSense)
         {
-            var product = GetAllBooks().FirstOrDefault((p) => p.id == id);
+            if(caseSense)
+            {
+                System.Diagnostics.Debug.WriteLine("CheckBox was checked!");
+            }
+            var product = GetAllBooks().Where((p) => p.title.ToLower().Contains(id.ToLower()));
             if (product == null)
             {
-                return NotFound();
+                return null;
             }
-            return Ok(product);
+            return product;
         }
+
+        //public IHttpActionResult GetBook(string id)
+        //{
+        //    var product = GetAllBooks().FirstOrDefault((p) => p.id == id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Ok(product);
+        //}
     }
 }

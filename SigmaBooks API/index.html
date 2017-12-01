@@ -1,24 +1,82 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Product App</title>
+    <title>Book List Page</title>
 </head>
 <body>
-
     <div>
-        <h2>All Products</h2>
+        <h2>Search for books in Sigma's inventory</h2>
+        <input type="text" id="searchBox" size="20" />
+        <input type="button" value="Search" onclick="search();" />
+        <button onclick="toggleAdvancedSearch()">Search Options</button>
+        <br><br/>
+            <div id="advancedSearch" style="display: none;">
+                <fieldset>
+                    <h3>Advanced Search Options</h3>
+                    <fieldset>
+                        <legend>Include in search</legend>
+                        <table>
+                            <tr>
+                                <td><input id="checkBoxTitle" type="checkbox" checked="checked"> Title </td>
+                                <td><input id="checkBoxAuthor" type="checkbox"> Author </td>
+                                <td><input id="checkBoxDescription" type="checkbox"> Description </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+
+                    <br><br />
+                        <input id="togglePriceOptions" type="checkbox" onclick="togglePriceOptions()"> Limit Price
+                    <fieldset  id="priceOptions" style="display: none;">
+                        <legend>Price</legend>
+                        <div id="slidecontainer">
+                            Minimum price: <span id="minPrice"></span><br />
+                            <input type="range" step="0.05" min="4" max="50" value="10" class="slider" id="minPriceSlider">
+                        </div>
+
+                        <div id="slidecontainer">
+                            Maximum price: <span id="maxPrice"></span><br />
+                            <input type="range" step="0.05" min="4" max="50" value="40" class="slider" id="maxPriceSlider">
+                        </div>
+                    </fieldset>
+
+                    <br><br />
+                    <input id="toggleDateOptions" type="checkbox" onclick="toggleDateOptions()"> Limit Publication Date
+                    <fieldset id="dateOptions" style="display: none;">
+                        <legend>Publication Date</legend>
+                        From 
+                        <input type="date" id="minDate" min="1520-12-31" max="2018-01-02"><br>
+                         To 
+                        <input type="date" id="maxDate" min="1520-12-31" max="2018-01-02"><br>
+                    </fieldset>
+
+                    <br><br />
+                    <input id="toggleGenreOptions" type="checkbox" onclick="toggleGenreOptions()"> Limit Genre
+                    <fieldset id="genreOptions" style="display: none;">
+                        <legend>Include Selected Genres</legend>
+                        <table>
+                            <tr>
+                                <td><input id="checkBoxComputer" type="checkbox" checked="checked"> Computer</td>
+                                <td><input id="checkBoxFantasy" type="checkbox" checked="checked"> Fantasy</td>
+                                <td><input id="checkBoxHorror" type="checkbox" checked="checked"> Horror</td>
+                                <td><input id="checkBoxRomance" type="checkbox" checked="checked"> Romance</td>
+                                <td><input id="checkBoxScienceFiction" type="checkbox" checked="checked"> Science Fiction</td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </fieldset>
+            </div>
+        </div>
+    <div>
+        <h2>Listed Books</h2>
         <ul id="book" />
     </div>
-    <div>
-        <h2>Search by ID</h2>
-        <input type="text" id="prodId" size="5" />
-        <input type="button" value="Search" onclick="find();" />
-        <p id="book" />
-    </div>
+
+    
 
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
-    var uri = 'api/book';
+        var uri = 'api/book';
+        var advancedSearch = false;
 
     $(document).ready(function () {
       // Send an AJAX request
@@ -36,7 +94,99 @@
       return item.title + ': $' + item.price;
     }
 
-    function find() {
+    function search() {
+        var searchString = $('#searchBox').val();
+        var caseSense = true;
+        var useTitle = $("#checkBoxTitle").val();//document.getElementById("checkBoxTitle").checked;
+        //var useAuthor = document.getElementById("checkBoxAuthor").checked;
+        //var useDescription = document.getElementById("checkBoxDescription").checked;
+        //var limitPrice = document.getElementById("togglePriceOptions").checked;
+        //var minPrice = document.getElementById("minPrice").innerHTML;
+        //var maxPrice = document.getElementById("maxPrice").innerHTML;
+        //var limitDate = document.getElementById("toggleDateOptions").checked;
+        //var minDate =  $("#minDate").datepicker("getDate");
+        //var maxDate = $("#maxDate").datepicker("maxDate");
+        //var limitGenre = document.getElementById("toggleGenreOptions").checked;
+
+        //var genreComputer = document.getElementById("checkBoxComputer").checked;
+        //var genreFantasy = document.getElementById("checkBoxFantasy").checked;
+        //var genreHorror = document.getElementById("checkBoxHorror").checked;
+        //var genreRomance = document.getElementById("checkBoxRomance").checked;
+        //var genreScienceFiction = document.getElementById("checkBoxScienceFiction").checked;
+        
+        $.getJSON(uri + '/' + searchString + '/' + caseSense)
+          .done(function (data) {
+              // On success, 'data' contains a list of book.
+              $('#book').empty();
+              $.each(data, function (key, item) {
+                  // Add a list item for the book.
+                  $('<li>', { text: formatItem(item) }).appendTo($('#book'));
+              });
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#book').text('Error: ' + err);
+          });
+    }
+
+    function toggleAdvancedSearch() {
+        var x = document.getElementById("advancedSearch");
+        if (x.style.display === "none") {
+            advancedSearch = true;
+            x.style.display = "block";
+        } else {
+            advancedSearch = false;
+            x.style.display = "none";
+        }
+    }
+
+    function togglePriceOptions() {
+        var x = document.getElementById("togglePriceOptions");
+        var y = document.getElementById("priceOptions");
+        if (x.checked) {
+            y.style.display = "block";
+        } else {
+            y.style.display = "none";
+        }
+    }
+
+    function toggleDateOptions() {
+        var x = document.getElementById("toggleDateOptions");
+        var y = document.getElementById("dateOptions");
+        if (x.checked) {
+            y.style.display = "block";
+        } else {
+            y.style.display = "none";
+        }
+    }
+
+    function toggleGenreOptions() {
+        var x = document.getElementById("toggleGenreOptions");
+        var y = document.getElementById("genreOptions");
+        if (x.checked) {
+            y.style.display = "block";
+        } else {
+            y.style.display = "none";
+        }
+    }
+
+
+    var minPriceSlider = document.getElementById("minPriceSlider");
+    var minPrice = document.getElementById("minPrice");
+    minPrice.innerHTML = minPriceSlider.value;
+
+    var maxPriceSlider = document.getElementById("maxPriceSlider");
+    var maxPrice = document.getElementById("maxPrice");
+    maxPrice.innerHTML = maxPriceSlider.value;
+
+    minPriceSlider.oninput = function () {
+        minPrice.innerHTML = this.value;
+    }
+    maxPriceSlider.oninput = function () {
+        maxPrice.innerHTML = this.value;
+    }
+
+        /*
+        function find() {
         var id = $('#prodId').val();
       $.getJSON(uri + '/' + id)
           .done(function (data) {
@@ -46,6 +196,7 @@
             $('#book').text('Error: ' + err);
           });
     }
+        */
     </script>
 </body>
 </html>
