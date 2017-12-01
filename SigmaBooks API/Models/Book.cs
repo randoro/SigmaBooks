@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using System.Xml.Serialization;
 
 namespace SigmaBooks_API.Models
 {
-    [DataContract]
     public class Book
     {
-        [DataMember]
+        [XmlAttribute("id")]
         public string id { get; set; }
-        [DataMember]
+        [XmlElement("author")]
         public string author { get; set; }
-        [DataMember]
+        [XmlElement("title")]
         public string title { get; set; }
-        [DataMember]
+        [XmlElement("genre")]
         public string genre { get; set; }
-        [DataMember]
+        [XmlElement("price")]
         public float price { get; set; }
-        [DataMember]
+        [XmlElement("publish_date")]
         public DateTime publish_date { get; set; }
-        [DataMember]
+        [XmlElement("description")]
         public string description { get; set; }
     }
 }

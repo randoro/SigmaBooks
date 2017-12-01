@@ -4,29 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace SigmaBooks_API.Controllers
 {
     public class BookController : ApiController
     {
+        static readonly string booksXMLPath = HttpContext.Current.Server.MapPath("~/App_Data/books.xml");
+        XMLTranslator xmlTranslator = new XMLTranslator();
+        
 
-        XMLTranslator trans = new XMLTranslator();
-        //Book[] products = new Book[]
-        //{
-        //    new Book { id = "test", author = "J.K Rowlings", title = "Harry potter", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" },
-        //    new Book { id = "test2", author = "J.K Rowlings", title = "Harry potter 2", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" },
-        //    new Book { id = "test3", author = "J.K Rowlings", title = "Harry potter 3", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" }
-        //};
-
-        public IEnumerable<Book> GetAllProducts()
+        public IEnumerable<Book> GetAllBooks()
         {
-            return trans.TestAll();
+            bool success = false;
+            return XMLTranslator.Deserialize<BookCatalog>(booksXMLPath, out success).bookList;
         }
 
-        public IHttpActionResult GetProduct(string id)
+        public IHttpActionResult GetBook(string id)
         {
-            var product = trans.TestAll().FirstOrDefault((p) => p.id == id);
+            var product = GetAllBooks().FirstOrDefault((p) => p.id == id);
             if (product == null)
             {
                 return NotFound();
