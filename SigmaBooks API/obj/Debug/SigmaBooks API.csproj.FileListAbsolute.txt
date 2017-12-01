@@ -39,3 +39,4 @@ D:\SourceTree\SigmaBooks\SigmaBooks API\bin\System.Web.Http.WebHost.xml
 D:\SourceTree\SigmaBooks\SigmaBooks API\obj\Debug\SigmaBooks API.csprojResolveAssemblyReference.cache
 D:\SourceTree\SigmaBooks\SigmaBooks API\obj\Debug\SigmaBooks API.dll
 D:\SourceTree\SigmaBooks\SigmaBooks API\obj\Debug\SigmaBooks API.pdb
+D:\SourceTree\SigmaBooks\SigmaBooks API\bin\books.xml

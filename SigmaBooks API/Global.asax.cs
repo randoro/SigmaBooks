@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +12,12 @@ namespace SigmaBooks_API
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            var xml = GlobalConfiguration.Configuration.Formatters.XmlFormatter;
+            xml.UseXmlSerializer = true;
         }
+
+
+        
     }
 }

@@ -11,21 +11,22 @@ namespace SigmaBooks_API.Controllers
     public class BookController : ApiController
     {
 
-        Book[] products = new Book[]
-        {
-            new Book { id = "test", author = "J.K Rowlings", title = "Harry potter", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" },
-            new Book { id = "test2", author = "J.K Rowlings", title = "Harry potter 2", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" },
-            new Book { id = "test3", author = "J.K Rowlings", title = "Harry potter 3", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" }
-        };
+        XMLTranslator trans = new XMLTranslator();
+        //Book[] products = new Book[]
+        //{
+        //    new Book { id = "test", author = "J.K Rowlings", title = "Harry potter", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" },
+        //    new Book { id = "test2", author = "J.K Rowlings", title = "Harry potter 2", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" },
+        //    new Book { id = "test3", author = "J.K Rowlings", title = "Harry potter 3", genre = "Magic", price = 10, publish_date = DateTime.Now, description = "a book" }
+        //};
 
         public IEnumerable<Book> GetAllProducts()
         {
-            return products;
+            return trans.TestAll();
         }
 
         public IHttpActionResult GetProduct(string id)
         {
-            var product = products.FirstOrDefault((p) => p.id == id);
+            var product = trans.TestAll().FirstOrDefault((p) => p.id == id);
             if (product == null)
             {
                 return NotFound();
