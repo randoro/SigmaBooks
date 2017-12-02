@@ -18,7 +18,6 @@ namespace SigmaBooks_API
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{advancedSearch}/{useTitle}/{useAuthor}/{useDescription}/{limitPrice}/{minPrice}/{maxPrice}/{limitDate}/{minDate}/{maxDate}/{limitGenre}/{genreComputer}/{genreFantasy}/{genreHorror}/{genreRomance}/{genreScienceFiction}/{searchString}",
                 defaults: new {
-                    searchString = RouteParameter.Optional,
                     advancedSearch = RouteParameter.Optional,
                     useTitle = RouteParameter.Optional,
                     useAuthor = RouteParameter.Optional,
@@ -34,7 +33,8 @@ namespace SigmaBooks_API
                     genreFantasy = RouteParameter.Optional,
                     genreHorror = RouteParameter.Optional,
                     genreRomance = RouteParameter.Optional,
-                    genreScienceFiction = RouteParameter.Optional
+                    genreScienceFiction = RouteParameter.Optional,
+                    searchString = RouteParameter.Optional
                 }
             );
         }

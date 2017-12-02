@@ -10,19 +10,48 @@ using System.Web.Http;
 
 namespace SigmaBooks_API.Controllers
 {
+    /// <summary>
+    /// Controller class linked to api/book uri
+    /// </summary>
     public class BookController : ApiController
     {
+        /// <summary>
+        /// Path to datasource file.
+        /// </summary>
         static readonly string booksXMLPath = HttpContext.Current.Server.MapPath("~/App_Data/books.xml");
-        XMLTranslator xmlTranslator = new XMLTranslator();
         
-
+        /// <summary>
+        /// Creates a collection of all books deserialized by the translator.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Book> GetAllBooks()
         {
             bool success = false;
             return XMLTranslator.Deserialize<BookCatalog>(booksXMLPath, out success).bookList;
         }
 
-        public IEnumerable<Book> GetBook(bool advancedSearch, bool useTitle, bool useAuthor, bool useDescription, bool limitPrice, string minPrice, string maxPrice, bool limitDate, string minDate, string maxDate, bool limitGenre, bool genreComputer, bool genreFantasy, bool genreHorror, bool genreRomance, bool genreScienceFiction, string searchString = "")
+        /// <summary>
+        /// Creates a filtered collection of books that meet certain conditions defined in the method parameters.
+        /// </summary>
+        /// <param name="advancedSearch">Decides of the search uses advanced searching options.</param>
+        /// <param name="useTitle">Decides if the searchString should be matched against book titles.</param>
+        /// <param name="useAuthor">Decides if the searchString should be matched against book authors.</param>
+        /// <param name="useDescription">Decides if the searchString should be matched against words in the book description.</param>
+        /// <param name="limitPrice">Decides if the search results should be limited by pricing.</param>
+        /// <param name="minPrice">The minimum price for a book to be listed in the result collection (with limitPrice enabled).</param>
+        /// <param name="maxPrice">The maximum price for a book to be listed in the result collection (with limitPrice enabled).</param>
+        /// <param name="limitDate">Decides if the search results should be limited by publication date.</param>
+        /// <param name="minDate">The minimum publication date for a book to be listed in the result collection (with limitDate enabled).</param>
+        /// <param name="maxDate">The maximum publication date for a book to be listed in the result collection (with limitDate enabled).</param>
+        /// <param name="limitGenre">Decides if the search results should be limited by genre.</param>
+        /// <param name="genreComputer">Decides if books of the 'Computer' genre are to be included.</param>
+        /// <param name="genreFantasy">Decides if books of the 'Fantasy' genre are to be included.</param>
+        /// <param name="genreHorror">Decides if books of the 'Horror' genre are to be included.</param>
+        /// <param name="genreRomance">Decides if books of the 'Romance' genre are to be included.</param>
+        /// <param name="genreScienceFiction">Decides if books of the 'Science Fiction' genre are to be included.</param>
+        /// <param name="searchString">Optional Searchstring used to match Title/Author/Description.</param>
+        /// <returns>A filtered collection of books.</returns>
+        public IEnumerable<Book> GetFilteredBooks(bool advancedSearch, bool useTitle, bool useAuthor, bool useDescription, bool limitPrice, string minPrice, string maxPrice, bool limitDate, string minDate, string maxDate, bool limitGenre, bool genreComputer, bool genreFantasy, bool genreHorror, bool genreRomance, bool genreScienceFiction, string searchString = "")
         {
             float floatMinPrice = 0.0f;
             float floatMaxPrice = 0.0f;
@@ -30,63 +59,50 @@ namespace SigmaBooks_API.Controllers
             float.TryParse(maxPrice, NumberStyles.Any, CultureInfo.InvariantCulture, out floatMaxPrice);
             DateTime minDateTime = Convert.ToDateTime(minDate);
             DateTime maxDateTime = Convert.ToDateTime(maxDate);
+            string lowerSearchString = searchString.ToLower();
 
             IEnumerable<Book> filteredBooks = null;
             if (!advancedSearch)
             {
                 //Free search (Matches with any text from Title/Author/Description
-                filteredBooks = GetAllBooks().Where((p) => p.title.ToLower().Contains(searchString.ToLower()) || p.author.ToLower().Contains(searchString.ToLower()) || p.description.ToLower().Contains(searchString.ToLower()));
+                filteredBooks = GetAllBooks().Where((p) => p.title.ToLower().Contains(lowerSearchString) || p.author.ToLower().Contains(lowerSearchString) || p.description.ToLower().Contains(lowerSearchString));
             }
             else
             {
+                //Below Filtering is broken into several LINQ where-clauses if conditions are met, This is done for better overview, however this can affect performance in bigger collections.
 
-               
-                //First keyword filtering on temporary collection.
+                //First get all books to the collection.
                 filteredBooks = GetAllBooks();
+
+                //If there is a searchString filter the collection.
                 if (searchString.Length > 0)
                 {
-                    System.Diagnostics.Debug.WriteLine("SearchString was used:" + searchString);
                     filteredBooks = filteredBooks.Where((p) =>
-                    (useTitle && p.title.ToLower().Contains(searchString.ToLower())) ||
-                    (useAuthor && p.author.ToLower().Contains(searchString.ToLower())) ||
-                    (useDescription && p.description.ToLower().Contains(searchString.ToLower())));
+                    (useTitle && p.title.ToLower().Contains(lowerSearchString)) ||
+                    (useAuthor && p.author.ToLower().Contains(lowerSearchString)) ||
+                    (useDescription && p.description.ToLower().Contains(lowerSearchString)));
                 }
 
-                //Filter is broken into several where clauses if conditions are met, This is also done for better overview, however this can affect performance in bigger collections.
+                //If price is to be limited, filter the collection.
                 if (limitPrice)
                 {
                     filteredBooks = filteredBooks.Where((p) => p.price >= floatMinPrice && p.price <= floatMaxPrice);
                 }
 
+                //If publication date is to be limited, filter the collection.
                 if (limitDate)
                 {
                     filteredBooks = filteredBooks.Where((p) => p.publish_date.Ticks >= minDateTime.Ticks && p.publish_date.Ticks <= maxDateTime.Ticks);
                 }
 
+                //If genre is to be limited, filter the collection.
                 if (limitGenre)
                 {
                     filteredBooks = filteredBooks.Where((p) => (genreComputer && p.genre == "Computer") || (genreFantasy && p.genre == "Fantasy") || (genreHorror && p.genre == "Horror") || (genreRomance && p.genre == "Romance") || (genreScienceFiction && p.genre == "ScienceFiction"));
                 }
-
-
             }
-            if (filteredBooks == null)
-            {
-                return null;
-            }
+
             return filteredBooks;
         }
-        //uri + '/' + searchString + '/' + useTitle + '/' + useAuthor + '/' + useDescription + '/' + limitPrice + '/' + minPrice + '/' + maxPrice 
-        //   + '/' + limitDate + '/' + minDate + '/' + maxDate + '/' + limitGenre + '/' + genreComputer + '/' + genreFantasy + '/' + genreHorror + '/' + genreRomance + '/' + genreScienceFiction
-
-        //public IHttpActionResult GetBook(string id)
-        //{
-        //    var product = GetAllBooks().FirstOrDefault((p) => p.id == id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(product);
-        //}
     }
 }
