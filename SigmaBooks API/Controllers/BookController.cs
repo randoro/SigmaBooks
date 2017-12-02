@@ -40,11 +40,12 @@ namespace SigmaBooks_API.Controllers
             else
             {
 
-                System.Diagnostics.Debug.WriteLine("SearchString:" + searchString);
+               
                 //First keyword filtering on temporary collection.
                 filteredBooks = GetAllBooks();
                 if (searchString.Length > 0)
                 {
+                    System.Diagnostics.Debug.WriteLine("SearchString was used:" + searchString);
                     filteredBooks = filteredBooks.Where((p) =>
                     (useTitle && p.title.ToLower().Contains(searchString.ToLower())) ||
                     (useAuthor && p.author.ToLower().Contains(searchString.ToLower())) ||
