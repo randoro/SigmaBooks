@@ -15,44 +15,40 @@
                     <h3>Advanced Search Options</h3>
                     <fieldset>
                         <legend>Include in search</legend>
-                        <table>
-                            <tr>
-                                <td><input id="checkBoxTitle" type="checkbox" checked="checked"> Title </td>
-                                <td><input id="checkBoxAuthor" type="checkbox"> Author </td>
-                                <td><input id="checkBoxDescription" type="checkbox"> Description </td>
-                            </tr>
-                        </table>
+                            <table>
+                                <tr>
+                                    <td><input id="checkBoxTitle" type="checkbox" checked="checked"> Title </td>
+                                    <td><input id="checkBoxAuthor" type="checkbox"> Author </td>
+                                    <td><input id="checkBoxDescription" type="checkbox"> Description </td>
+                                </tr>
+                            </table>
                     </fieldset>
-
-                    <br><br />
-                        <input id="togglePriceOptions" type="checkbox" onclick="togglePriceOptions()"> Limit Price
+                    <br><br/>
+                    <input id="togglePriceOptions" type="checkbox" onclick="togglePriceOptions()"> Limit Price
                     <fieldset  id="priceOptions" style="display: none;">
                         <legend>Price</legend>
                         <div id="slidecontainer">
                             Minimum price: <span id="minPrice"></span><br />
                             <input type="range" step="0.05" min="4" max="50" value="10" class="slider" id="minPriceSlider">
                         </div>
-
                         <div id="slidecontainer">
                             Maximum price: <span id="maxPrice"></span><br />
                             <input type="range" step="0.05" min="4" max="50" value="40" class="slider" id="maxPriceSlider">
                         </div>
                     </fieldset>
-
-                    <br><br />
-                    <input id="toggleDateOptions" type="checkbox" onclick="toggleDateOptions()"> Limit Publication Date
-                    <fieldset id="dateOptions" style="display: none;">
-                        <legend>Publication Date</legend>
-                        From 
-                        <input type="date" id="minDate" min="1520-12-31" max="2018-01-02"><br>
-                         To 
-                        <input type="date" id="maxDate" min="1520-12-31" max="2018-01-02"><br>
-                    </fieldset>
-
-                    <br><br />
-                    <input id="toggleGenreOptions" type="checkbox" onclick="toggleGenreOptions()"> Limit Genre
-                    <fieldset id="genreOptions" style="display: none;">
-                        <legend>Include Selected Genres</legend>
+                <br><br/>
+                <input id="toggleDateOptions" type="checkbox" onclick="toggleDateOptions()"> Limit Publication Date
+                <fieldset id="dateOptions" style="display: none;">
+                    <legend>Publication Date</legend>
+                    From 
+                    <input type="date" id="minDate" min="1520-12-31" max="2018-01-02"><br>
+                    To 
+                    <input type="date" id="maxDate" min="1520-12-31" max="2018-01-02"><br>
+                </fieldset>
+                <br><br />
+                <input id="toggleGenreOptions" type="checkbox" onclick="toggleGenreOptions()"> Limit Genre
+                <fieldset id="genreOptions" style="display: none;">
+                    <legend>Include Selected Genres</legend>
                         <table>
                             <tr>
                                 <td><input id="checkBoxComputer" type="checkbox" checked="checked"> Computer</td>
@@ -68,72 +64,80 @@
         </div>
     <div>
         <h2>Listed Books</h2>
-        <ul id="book" />
+        <ul id="book" style="max-width: 500px;"/>
     </div>
 
     
 
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
+//Globals
         var uri = 'api/book';
         var advancedSearch = false;
 
+//Fill startpage with all books.
     $(document).ready(function () {
       // Send an AJAX request
       $.getJSON(uri)
           .done(function (data) {
-            // On success, 'data' contains a list of book.
-            $.each(data, function (key, item) {
-              // Add a list item for the book.
-              $('<li>', { text: formatItem(item) }).appendTo($('#book'));
+            // On success, 'data' contains a list of all books.
+              $.each(data, function (key, item) {
+                  // Add html item for each book.
+                  var html = formatItem(item);
+                  var newItem = $('<fieldset>', { html }).add('<span style="display:block; height: 25px;">', {});
+                newItem.appendTo($('#book'));
             });
           });
     });
 
+        //Formats a book item to be added on the page.
     function formatItem(item) {
-      return item.title + ': $' + item.price;
-    }
+        var html = '<h3 id="title">' + item.title + '</h3>' +
+                      '<i id="authoranddate">' + "By " + item.author + " (" + item.publish_date + ")" + '</i>' +
+                      '<strong id="price" style="float: right">' + "Price " + item.price + "$" + '</strong>' +
+                      '</br>' +
+                      '<small id="genre">' + "&emsp;  Genre (" + item.genre + ")" + '</small>' +
+                      '<span style="display:block; height: 25px;"></span>' +
+                      '<div id="description">' + item.description + '</div>';
+        return html;
+        }
 
+        //Search function when clicking search button
     function search() {
+        //Fetching variables
         var searchString = "";
         searchString = $('#searchBox').val();
         var useTitle = $("#checkBoxTitle").is(':checked');
-        var useAuthor = $("#checkBoxAuthor").is(':checked'); //.val(); //= document.getElementById("checkBoxAuthor").checked;
-        var useDescription = $("#checkBoxDescription").is(':checked'); //.val(); //= document.getElementById("checkBoxDescription").checked;
-        var limitPrice = $("#togglePriceOptions").is(':checked'); //.val(); // = document.getElementById("togglePriceOptions").checked;
-        var minPrice = $("#minPrice").text(); //.val(); //= document.getElementById("minPrice").innerHTML;
-        var maxPrice = $("#maxPrice").text(); //.val(); //= document.getElementById("maxPrice").innerHTML;
-        var limitDate = $("#toggleDateOptions").is(':checked'); //.val(); // = document.getElementById("toggleDateOptions").checked;
-        if (document.getElementById("minDate").value) {
-            var minDate = document.getElementById("minDate").value.toString();
-        }
-        else {
-            var minDate = "1520-12-31";
-        }
-        if (document.getElementById("maxDate").value) {
-            var maxDate = document.getElementById("maxDate").value.toString();
-        }
-        else {
-            var maxDate = "2018-01-02";
-        }
-        //var minDate = document.getElementById("minDate").value.toString();  //$("#minDate").datepicker({ dateFormat: 'yy-mm-dd' }).val();//new Date($("#minDate").datepicker("getDate"));
-        //var maxDate = document.getElementById("maxDate").valueAsDate.toString(); //= $("#maxDate").datepicker("getDate");
-        var limitGenre = $("#toggleGenreOptions").is(':checked'); //.val(); //= document.getElementById("toggleGenreOptions").checked;
+        var useAuthor = $("#checkBoxAuthor").is(':checked');
+        var useDescription = $("#checkBoxDescription").is(':checked');
 
-        var genreComputer = $("#checkBoxComputer").is(':checked'); //.val(); //= document.getElementById("checkBoxComputer").checked;
-        var genreFantasy = $("#checkBoxFantasy").is(':checked'); //.val(); //= document.getElementById("checkBoxFantasy").checked;
-        var genreHorror = $("#checkBoxHorror").is(':checked'); //.val(); //= document.getElementById("checkBoxHorror").checked;
-        var genreRomance = $("#checkBoxRomance").is(':checked'); //.val(); //= document.getElementById("checkBoxRomance").checked;
-        var genreScienceFiction = $("#checkBoxScienceFiction").is(':checked'); //.val(); //= document.getElementById("checkBoxScienceFiction").checked;
+        var limitPrice = $("#togglePriceOptions").is(':checked');
+        var minPrice = $("#minPrice").text();
+        var maxPrice = $("#maxPrice").text();
+
+        var limitDate = $("#toggleDateOptions").is(':checked');
+        var minDate = dateDefaulterWorkaround("minDate", "1520-12-31");
+        var maxDate = dateDefaulterWorkaround("maxDate", "2018-01-02");
+
+        var limitGenre = $("#toggleGenreOptions").is(':checked');
+        var genreComputer = $("#checkBoxComputer").is(':checked');
+        var genreFantasy = $("#checkBoxFantasy").is(':checked');
+        var genreHorror = $("#checkBoxHorror").is(':checked');
+        var genreRomance = $("#checkBoxRomance").is(':checked');
+        var genreScienceFiction = $("#checkBoxScienceFiction").is(':checked');
         
+        //Request filtered collection of books.
         $.getJSON(uri + '/' + advancedSearch + '/' + useTitle + '/' + useAuthor + '/' + useDescription + '/' + limitPrice + '/' + minPrice + '/' + maxPrice
             + '/' + limitDate + '/' + minDate + '/' + maxDate + '/' + limitGenre + '/' + genreComputer + '/' + genreFantasy + '/' + genreHorror + '/' + genreRomance + '/' + genreScienceFiction + '/' + searchString)
           .done(function (data) {
-              // On success, 'data' contains a list of book.
+              // On success, 'data' contains a list filtered books.
+              //Remove all old data from book tag.
               $('#book').empty();
               $.each(data, function (key, item) {
-                  // Add a list item for the book.
-                  $('<li>', { text: formatItem(item) }).appendTo($('#book'));
+                  // Add html item for each book.
+                  var html = formatItem(item);
+                  var newItem = $('<fieldset>', { html }).add('<span style="display:block; height: 25px;">', {});
+                  newItem.appendTo($('#book'));
               });
           })
           .fail(function (jqXHR, textStatus, err) {
@@ -141,6 +145,18 @@
           });
     }
 
+        //Workaround because of javascript's loose values on for example datepicker value. Which returns false if not set, and the date if set.
+    function dateDefaulterWorkaround(elementID, defaultValue) {
+        if (document.getElementById(elementID).value) {
+            var date = document.getElementById(elementID).value.toString();
+        }
+        else {
+            var date = defaultValue;
+        }
+        return date;
+    }
+
+        //Toggles visibility on the page for the advanced search options.
     function toggleAdvancedSearch() {
         var x = document.getElementById("advancedSearch");
         var b = document.getElementById("enableSearchOptionsButton");
@@ -155,37 +171,35 @@
         }
     }
 
+        //Toggles price visibility.
     function togglePriceOptions() {
-        var x = document.getElementById("togglePriceOptions");
-        var y = document.getElementById("priceOptions");
-        if (x.checked) {
-            y.style.display = "block";
-        } else {
-            y.style.display = "none";
-        }
+        toggleOptions("togglePriceOptions", "priceOptions");
     }
 
+        //Toggles date visibility
     function toggleDateOptions() {
-        var x = document.getElementById("toggleDateOptions");
-        var y = document.getElementById("dateOptions");
-        if (x.checked) {
-            y.style.display = "block";
-        } else {
-            y.style.display = "none";
-        }
+        toggleOptions("toggleDateOptions", "dateOptions");
     }
 
+        //Toggles genres visibility
     function toggleGenreOptions() {
-        var x = document.getElementById("toggleGenreOptions");
-        var y = document.getElementById("genreOptions");
+        toggleOptions("toggleGenreOptions", "genreOptions");
+    }
+
+        //Toggles visibility of tag with 'ToggleObjectID'-ID depending on checkbox with 'ToggleCheckBoxID'-ID. Returns visibility.
+    function toggleOptions(ToggleCheckBoxID, ToggleObjectID) {
+        var x = document.getElementById(ToggleCheckBoxID);
+        var y = document.getElementById(ToggleObjectID);
         if (x.checked) {
             y.style.display = "block";
+            return true;
         } else {
             y.style.display = "none";
+            return false;
         }
     }
 
-
+       //Setting slider indicator's default values.
     var minPriceSlider = document.getElementById("minPriceSlider");
     var minPrice = document.getElementById("minPrice");
     minPrice.innerHTML = minPriceSlider.value;
@@ -194,6 +208,7 @@
     var maxPrice = document.getElementById("maxPrice");
     maxPrice.innerHTML = maxPriceSlider.value;
 
+        //Linking sliders to change the indicator's value on input change.
     minPriceSlider.oninput = function () {
         minPrice.innerHTML = this.value;
     }
@@ -201,18 +216,6 @@
         maxPrice.innerHTML = this.value;
     }
 
-        /*
-        function find() {
-        var id = $('#prodId').val();
-      $.getJSON(uri + '/' + id)
-          .done(function (data) {
-            $('#book').text(formatItem(data));
-          })
-          .fail(function (jqXHR, textStatus, err) {
-            $('#book').text('Error: ' + err);
-          });
-    }
-        */
     </script>
 </body>
 </html>

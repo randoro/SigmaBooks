@@ -43,10 +43,20 @@ namespace SigmaBooks_API.Models
         public float price { get; set; }
 
         /// <summary>
-        /// Property XML linked to book's publish_date element.
+        /// Secret DateTime Object that also includes time.
+        /// </summary>
+        [XmlIgnore]
+        public DateTime secret_publish_date { get; set; }
+
+        /// <summary>
+        /// Dummy Property XML linked to book's publish_date element. This is used to prevent writing/reading a 00:00:00 time on XML values with no timestamp.
         /// </summary>
         [XmlElement("publish_date")]
-        public DateTime publish_date { get; set; }
+        public string publish_date
+        {
+            get { return this.secret_publish_date.ToString("yyyy-MM-dd"); }
+            set { this.secret_publish_date = DateTime.Parse(value); }
+        }
 
         /// <summary>
         /// Property XML linked to book's description element.

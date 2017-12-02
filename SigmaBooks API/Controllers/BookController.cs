@@ -62,6 +62,7 @@ namespace SigmaBooks_API.Controllers
             string lowerSearchString = searchString.ToLower();
 
             IEnumerable<Book> filteredBooks = null;
+            //If the advanced searching option is disabled, use free search.
             if (!advancedSearch)
             {
                 //Free search (Matches with any text from Title/Author/Description
@@ -92,7 +93,7 @@ namespace SigmaBooks_API.Controllers
                 //If publication date is to be limited, filter the collection.
                 if (limitDate)
                 {
-                    filteredBooks = filteredBooks.Where((p) => p.publish_date.Ticks >= minDateTime.Ticks && p.publish_date.Ticks <= maxDateTime.Ticks);
+                    filteredBooks = filteredBooks.Where((p) => p.secret_publish_date.Ticks >= minDateTime.Ticks && p.secret_publish_date.Ticks <= maxDateTime.Ticks);
                 }
 
                 //If genre is to be limited, filter the collection.
