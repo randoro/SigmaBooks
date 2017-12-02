@@ -16,8 +16,26 @@ namespace SigmaBooks_API
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}/{caseSense}",
-                defaults: new { id = RouteParameter.Optional, caseSense = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{advancedSearch}/{useTitle}/{useAuthor}/{useDescription}/{limitPrice}/{minPrice}/{maxPrice}/{limitDate}/{minDate}/{maxDate}/{limitGenre}/{genreComputer}/{genreFantasy}/{genreHorror}/{genreRomance}/{genreScienceFiction}/{searchString}",
+                defaults: new {
+                    searchString = RouteParameter.Optional,
+                    advancedSearch = RouteParameter.Optional,
+                    useTitle = RouteParameter.Optional,
+                    useAuthor = RouteParameter.Optional,
+                    useDescription = RouteParameter.Optional,
+                    limitPrice = RouteParameter.Optional,
+                    minPrice = RouteParameter.Optional,
+                    maxPrice = RouteParameter.Optional,
+                    limitDate = RouteParameter.Optional,
+                    minDate = RouteParameter.Optional,
+                    maxDate = RouteParameter.Optional,
+                    limitGenre = RouteParameter.Optional,
+                    genreComputer = RouteParameter.Optional,
+                    genreFantasy = RouteParameter.Optional,
+                    genreHorror = RouteParameter.Optional,
+                    genreRomance = RouteParameter.Optional,
+                    genreScienceFiction = RouteParameter.Optional
+                }
             );
         }
 

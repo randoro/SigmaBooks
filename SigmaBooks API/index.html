@@ -8,7 +8,7 @@
         <h2>Search for books in Sigma's inventory</h2>
         <input type="text" id="searchBox" size="20" />
         <input type="button" value="Search" onclick="search();" />
-        <button onclick="toggleAdvancedSearch()">Search Options</button>
+        <button id="enableSearchOptionsButton" onclick="toggleAdvancedSearch()">Enable Search Options</button>
         <br><br/>
             <div id="advancedSearch" style="display: none;">
                 <fieldset>
@@ -95,26 +95,39 @@
     }
 
     function search() {
-        var searchString = $('#searchBox').val();
-        var caseSense = true;
-        var useTitle = $("#checkBoxTitle").val();//document.getElementById("checkBoxTitle").checked;
-        //var useAuthor = document.getElementById("checkBoxAuthor").checked;
-        //var useDescription = document.getElementById("checkBoxDescription").checked;
-        //var limitPrice = document.getElementById("togglePriceOptions").checked;
-        //var minPrice = document.getElementById("minPrice").innerHTML;
-        //var maxPrice = document.getElementById("maxPrice").innerHTML;
-        //var limitDate = document.getElementById("toggleDateOptions").checked;
-        //var minDate =  $("#minDate").datepicker("getDate");
-        //var maxDate = $("#maxDate").datepicker("maxDate");
-        //var limitGenre = document.getElementById("toggleGenreOptions").checked;
+        var searchString = "";
+        searchString = $('#searchBox').val();
+        var useTitle = $("#checkBoxTitle").is(':checked');
+        var useAuthor = $("#checkBoxAuthor").is(':checked'); //.val(); //= document.getElementById("checkBoxAuthor").checked;
+        var useDescription = $("#checkBoxDescription").is(':checked'); //.val(); //= document.getElementById("checkBoxDescription").checked;
+        var limitPrice = $("#togglePriceOptions").is(':checked'); //.val(); // = document.getElementById("togglePriceOptions").checked;
+        var minPrice = $("#minPrice").text(); //.val(); //= document.getElementById("minPrice").innerHTML;
+        var maxPrice = $("#maxPrice").text(); //.val(); //= document.getElementById("maxPrice").innerHTML;
+        var limitDate = $("#toggleDateOptions").is(':checked'); //.val(); // = document.getElementById("toggleDateOptions").checked;
+        if (document.getElementById("minDate").value) {
+            var minDate = document.getElementById("minDate").value.toString();
+        }
+        else {
+            var minDate = "1520-12-31";
+        }
+        if (document.getElementById("maxDate").value) {
+            var maxDate = document.getElementById("maxDate").value.toString();
+        }
+        else {
+            var maxDate = "2018-01-02";
+        }
+        //var minDate = document.getElementById("minDate").value.toString();  //$("#minDate").datepicker({ dateFormat: 'yy-mm-dd' }).val();//new Date($("#minDate").datepicker("getDate"));
+        //var maxDate = document.getElementById("maxDate").valueAsDate.toString(); //= $("#maxDate").datepicker("getDate");
+        var limitGenre = $("#toggleGenreOptions").is(':checked'); //.val(); //= document.getElementById("toggleGenreOptions").checked;
 
-        //var genreComputer = document.getElementById("checkBoxComputer").checked;
-        //var genreFantasy = document.getElementById("checkBoxFantasy").checked;
-        //var genreHorror = document.getElementById("checkBoxHorror").checked;
-        //var genreRomance = document.getElementById("checkBoxRomance").checked;
-        //var genreScienceFiction = document.getElementById("checkBoxScienceFiction").checked;
+        var genreComputer = $("#checkBoxComputer").is(':checked'); //.val(); //= document.getElementById("checkBoxComputer").checked;
+        var genreFantasy = $("#checkBoxFantasy").is(':checked'); //.val(); //= document.getElementById("checkBoxFantasy").checked;
+        var genreHorror = $("#checkBoxHorror").is(':checked'); //.val(); //= document.getElementById("checkBoxHorror").checked;
+        var genreRomance = $("#checkBoxRomance").is(':checked'); //.val(); //= document.getElementById("checkBoxRomance").checked;
+        var genreScienceFiction = $("#checkBoxScienceFiction").is(':checked'); //.val(); //= document.getElementById("checkBoxScienceFiction").checked;
         
-        $.getJSON(uri + '/' + searchString + '/' + caseSense)
+        $.getJSON(uri + '/' + advancedSearch + '/' + useTitle + '/' + useAuthor + '/' + useDescription + '/' + limitPrice + '/' + minPrice + '/' + maxPrice
+            + '/' + limitDate + '/' + minDate + '/' + maxDate + '/' + limitGenre + '/' + genreComputer + '/' + genreFantasy + '/' + genreHorror + '/' + genreRomance + '/' + genreScienceFiction + '/' + searchString)
           .done(function (data) {
               // On success, 'data' contains a list of book.
               $('#book').empty();
@@ -130,11 +143,14 @@
 
     function toggleAdvancedSearch() {
         var x = document.getElementById("advancedSearch");
+        var b = document.getElementById("enableSearchOptionsButton");
         if (x.style.display === "none") {
             advancedSearch = true;
+            b.innerText = "Disable Search Options";
             x.style.display = "block";
         } else {
             advancedSearch = false;
+            b.innerText = "Enable Search Options";
             x.style.display = "none";
         }
     }
