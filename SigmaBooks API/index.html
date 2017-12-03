@@ -11,9 +11,9 @@
         <button id="enableSearchOptionsButton" onclick="toggleAdvancedSearch()">Enable Search Options</button>
         <br><br/>
             <div id="advancedSearch" style="display: none;">
-                <fieldset>
+                <fieldset style="max-width: 500px;">
                     <h3>Advanced Search Options</h3>
-                    <fieldset>
+                    <fieldset style="max-width: 300px;">
                         <legend>Include in search</legend>
                             <table>
                                 <tr>
@@ -25,7 +25,7 @@
                     </fieldset>
                     <br><br/>
                     <input id="togglePriceOptions" type="checkbox" onclick="togglePriceOptions()"> Limit Price
-                    <fieldset  id="priceOptions" style="display: none;">
+                    <fieldset  id="priceOptions" style="display: none; max-width: 200px;">
                         <legend>Price</legend>
                         <div id="slidecontainer">
                             Minimum price: <span id="minPrice"></span><br />
@@ -38,7 +38,7 @@
                     </fieldset>
                 <br><br/>
                 <input id="toggleDateOptions" type="checkbox" onclick="toggleDateOptions()"> Limit Publication Date
-                <fieldset id="dateOptions" style="display: none;">
+                <fieldset id="dateOptions" style="display: none; max-width: 200px;">
                     <legend>Publication Date</legend>
                     From 
                     <input type="date" id="minDate" min="1520-12-31" max="2018-01-02"><br>
@@ -47,7 +47,7 @@
                 </fieldset>
                 <br><br />
                 <input id="toggleGenreOptions" type="checkbox" onclick="toggleGenreOptions()"> Limit Genre
-                <fieldset id="genreOptions" style="display: none;">
+                <fieldset id="genreOptions" style="display: none; max-width: 500px;">
                     <legend>Include Selected Genres</legend>
                         <table>
                             <tr>
