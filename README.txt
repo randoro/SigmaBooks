@@ -29,6 +29,7 @@ Almost all of the calculations/filtering is done on server side. Only parameter 
 For filtering out objects from the collections I chose to use LINQ. 
 I chose to split the where clauses (in GetFilteredBooks) this can impact performance in big collections. In my opinion the positives (easier understandability/maintenance) outweighs the negatives.
 For big collections a database would be prefered over XML data storage either way.
+The books.xml is stored in the App_Data folder of the project.
 Part 2.
 The website is plain html with some JavaScripts and JQuery. Notice that I use getJSON for the HTTP GET mostly because it's much simpler than XMLHttpRequest objects in javascript.
 The page uses public css files from W3Schools and Google.
