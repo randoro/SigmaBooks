@@ -31,6 +31,7 @@ I chose to split the where clauses (in GetFilteredBooks) this can impact perform
 For big collections a database would be prefered over XML data storage either way.
 Part 2.
 The website is plain html with some JavaScripts and JQuery. Notice that I use getJSON for the HTTP GET mostly because it's much simpler than XMLHttpRequest objects in javascript.
-Sorry for not adding any css.
+The page uses public css files from W3Schools and Google.
+I tested the page in Chrome (works best), Edge (works well, spacing is a little bit off on the slidebars), Internet Explorer (limited). Internet Explorer doesn't support the html 'input date' to full extent (one has to write the date by hand).
 
 END OF FILE
