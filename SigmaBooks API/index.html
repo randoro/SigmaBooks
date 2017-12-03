@@ -2,9 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Book List Page</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <style>
+        .w3-sidebar a {
+            font-family: "Roboto", sans-serif;
+        }
+
+        body, h1, h2, h3, h4, h5, h6, .w3-wide {
+            font-family: "Montserrat", sans-serif;
+        }
+        div.padded {
+            padding-top: 5px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+            padding-left: 50px;
+        }
+    </style>
 </head>
+
 <body>
-    <div>
+    <div class="padded">
         <h2>Search for books in Sigma's inventory</h2>
         <input type="text" id="searchBox" size="20" />
         <input type="button" value="Search" onclick="search();" />
@@ -62,7 +81,7 @@
                 </fieldset>
             </div>
         </div>
-    <div>
+    <div class="padded">
         <h2>Listed Books</h2>
         <ul id="book" style="max-width: 500px;"/>
     </div>
