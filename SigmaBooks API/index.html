@@ -84,7 +84,7 @@
               $.each(data, function (key, item) {
                   // Add html item for each book.
                   var html = formatItem(item);
-                  var newItem = $('<fieldset>', { html }).add('<span style="display:block; height: 25px;">', {});
+                  var newItem = $('<fieldset>', { html : html }).add('<span style="display:block; height: 25px;">', {});
                 newItem.appendTo($('#book'));
             });
           });
@@ -136,7 +136,7 @@
               $.each(data, function (key, item) {
                   // Add html item for each book.
                   var html = formatItem(item);
-                  var newItem = $('<fieldset>', { html }).add('<span style="display:block; height: 25px;">', {});
+                  var newItem = $('<fieldset>', { html : html }).add('<span style="display:block; height: 25px;">', {});
                   newItem.appendTo($('#book'));
               });
           })

@@ -15,7 +15,7 @@ set the maximum slider to 20, limit publication date and set the specific minimu
 Troubleshooting:
 If for some reason the application/server isnt working (even though it's working very well on my side):
 1. Make sure you are running Visual Studio with admin privileges.
-2. Try using a browser like Google Chrome (I did not test other browsers, though they might be fine).
+2. Try using a browser like Google Chrome (I tested Chrome, IE 11, Edge).
 3. If you see Visual Studio debugging running but no page opens, Visit http://localhost:58963/index.html on your own.
 4. If index.html isn't working try checking http://localhost:58963/api/book (Which is a direct link to the Web API) and make sure it returns a XML tree.
 
