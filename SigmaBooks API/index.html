@@ -109,31 +109,13 @@
 
     //Formats a book item to be added on the page.
     function formatItem(item) {
-        var html = '<h3 id="title">' +
-            item.title +
-            '</h3>' +
-            '<i id="authoranddate">' +
-            "By " +
-            item.author +
-            " (" +
-            item.publish_date +
-            ")" +
-            '</i>' +
-            '<strong id="price" style="float: right">' +
-            "Price " +
-            item.price +
-            "$" +
-            '</strong>' +
+        var html = '<h3 id="title">' + item.title + '</h3>' +
+            '<i id="authoranddate">' + "By " + item.author + " (" + item.publish_date + ")" + '</i>' +
+            '<strong id="price" style="float: right">' + "Price " + item.price + "$" + '</strong>' +
             '</br>' +
-            '<small id="genre">' +
-            "&emsp;  Genre (" +
-            item.genre +
-            ")" +
-            '</small>' +
+            '<small id="genre">' + "&emsp;  Genre (" + item.genre + ")" + '</small>' +
             '<span style="display:block; height: 25px;"></span>' +
-            '<div id="description">' +
-            item.description +
-            '</div>';
+            '<div id="description">' + item.description + '</div>';
         return html;
     }
 
@@ -162,41 +144,11 @@
         var genreScienceFiction = $("#checkBoxScienceFiction").is(':checked');
 
         //Request filtered collection of books.
-        $.getJSON(uri +
-                '/' +
-                advancedSearch +
-                '/' +
-                useTitle +
-                '/' +
-                useAuthor +
-                '/' +
-                useDescription +
-                '/' +
-                limitPrice +
-                '/' +
-                minPrice +
-                '/' +
-                maxPrice +
-                '/' +
-                limitDate +
-                '/' +
-                minDate +
-                '/' +
-                maxDate +
-                '/' +
-                limitGenre +
-                '/' +
-                genreComputer +
-                '/' +
-                genreFantasy +
-                '/' +
-                genreHorror +
-                '/' +
-                genreRomance +
-                '/' +
-                genreScienceFiction +
-                '/' +
-                searchString)
+        $.getJSON(uri + '/' + advancedSearch + '/' + useTitle + '/' + useAuthor +
+            '/' + useDescription + '/' + limitPrice + '/' + minPrice + '/' + maxPrice +
+            '/' + limitDate + '/' + minDate + '/' + maxDate + '/' + limitGenre +
+            '/' + genreComputer + '/' + genreFantasy + '/' + genreHorror +
+            '/' + genreRomance + '/' + genreScienceFiction + '/' + searchString)
             .done(function(data) {
                 // On success, 'data' contains a list filtered books.
                 //Remove all old data from book tag.
