@@ -6,122 +6,138 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <style>
-        .w3-sidebar a {
-            font-family: "Roboto", sans-serif;
-        }
+        .w3-sidebar a { font-family: "Roboto", sans-serif; }
 
-        body, h1, h2, h3, h4, h5, h6, .w3-wide {
-            font-family: "Montserrat", sans-serif;
-        }
+        body, h1, h2, h3, h4, h5, h6, .w3-wide { font-family: "Montserrat", sans-serif; }
+
         div.padded {
-            padding-top: 5px;
-            padding-right: 5px;
             padding-bottom: 5px;
             padding-left: 50px;
+            padding-right: 5px;
+            padding-top: 5px;
         }
     </style>
 </head>
 
 <body>
-    <div class="padded">
-        <h2>Search for books in Sigma's inventory</h2>
-        <input type="text" id="searchBox" size="20" />
-        <input type="button" value="Search" onclick="search();" />
-        <button id="enableSearchOptionsButton" onclick="toggleAdvancedSearch()">Enable Search Options</button>
-        <br><br/>
-            <div id="advancedSearch" style="display: none;">
-                <fieldset style="max-width: 500px;">
-                    <h3>Advanced Search Options</h3>
-                    <fieldset style="max-width: 300px;">
-                        <legend>Include in search</legend>
-                            <table>
-                                <tr>
-                                    <td><input id="checkBoxTitle" type="checkbox" checked="checked"> Title </td>
-                                    <td><input id="checkBoxAuthor" type="checkbox"> Author </td>
-                                    <td><input id="checkBoxDescription" type="checkbox"> Description </td>
-                                </tr>
-                            </table>
-                    </fieldset>
-                    <br><br/>
-                    <input id="togglePriceOptions" type="checkbox" onclick="togglePriceOptions()"> Limit Price
-                    <fieldset  id="priceOptions" style="display: none; max-width: 200px;">
-                        <legend>Price</legend>
-                        <div id="slidecontainer">
-                            Minimum price: <span id="minPrice"></span><br />
-                            <input type="range" step="0.05" min="4" max="50" value="10" class="slider" id="minPriceSlider">
-                        </div>
-                        <div id="slidecontainer">
-                            Maximum price: <span id="maxPrice"></span><br />
-                            <input type="range" step="0.05" min="4" max="50" value="40" class="slider" id="maxPriceSlider">
-                        </div>
-                    </fieldset>
-                <br><br/>
-                <input id="toggleDateOptions" type="checkbox" onclick="toggleDateOptions()"> Limit Publication Date
-                <fieldset id="dateOptions" style="display: none; max-width: 200px;">
-                    <legend>Publication Date</legend>
-                    From 
-                    <input type="date" id="minDate" min="1520-12-31" max="2018-01-02"><br>
-                    To 
-                    <input type="date" id="maxDate" min="1520-12-31" max="2018-01-02"><br>
-                </fieldset>
-                <br><br />
-                <input id="toggleGenreOptions" type="checkbox" onclick="toggleGenreOptions()"> Limit Genre
-                <fieldset id="genreOptions" style="display: none; max-width: 500px;">
-                    <legend>Include Selected Genres</legend>
-                        <table>
-                            <tr>
-                                <td><input id="checkBoxComputer" type="checkbox" checked="checked"> Computer</td>
-                                <td><input id="checkBoxFantasy" type="checkbox" checked="checked"> Fantasy</td>
-                                <td><input id="checkBoxHorror" type="checkbox" checked="checked"> Horror</td>
-                                <td><input id="checkBoxRomance" type="checkbox" checked="checked"> Romance</td>
-                                <td><input id="checkBoxScienceFiction" type="checkbox" checked="checked"> Science Fiction</td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                </fieldset>
-            </div>
-        </div>
-    <div class="padded">
-        <h2>Listed Books</h2>
-        <ul id="book" style="max-width: 500px;"/>
+<div class="padded">
+    <h2>Search for books in Sigma's inventory</h2>
+    <input type="text" id="searchBox" size="20"/>
+    <input type="button" value="Search" onclick="search();"/>
+    <button id="enableSearchOptionsButton" onclick="toggleAdvancedSearch()">Enable Search Options</button>
+    <br><br/>
+    <div id="advancedSearch" style="display: none;">
+        <fieldset style="max-width: 500px;">
+            <h3>Advanced Search Options</h3>
+            <fieldset style="max-width: 300px;">
+                <legend>Include in search</legend>
+                <table>
+                    <tr>
+                        <td><input id="checkBoxTitle" type="checkbox" checked="checked"> Title </td>
+                        <td><input id="checkBoxAuthor" type="checkbox"> Author </td>
+                        <td><input id="checkBoxDescription" type="checkbox"> Description </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <br><br/>
+            <input id="togglePriceOptions" type="checkbox" onclick="togglePriceOptions()"> Limit Price
+            <fieldset id="priceOptions" style="display: none; max-width: 200px;">
+                <legend>Price</legend>
+                <div id="slidecontainer">
+                    Minimum price: <span id="minPrice"></span><br/>
+                    <input type="range" step="0.05" min="4" max="50" value="10" class="slider" id="minPriceSlider">
+                </div>
+                <div id="slidecontainer">
+                    Maximum price: <span id="maxPrice"></span><br/>
+                    <input type="range" step="0.05" min="4" max="50" value="40" class="slider" id="maxPriceSlider">
+                </div>
+            </fieldset>
+            <br><br/>
+            <input id="toggleDateOptions" type="checkbox" onclick="toggleDateOptions()"> Limit Publication Date
+            <fieldset id="dateOptions" style="display: none; max-width: 200px;">
+                <legend>Publication Date</legend>
+                From
+                <input type="date" id="minDate" min="1520-12-31" max="2018-01-02"><br>
+                To
+                <input type="date" id="maxDate" min="1520-12-31" max="2018-01-02"><br>
+            </fieldset>
+            <br><br/>
+            <input id="toggleGenreOptions" type="checkbox" onclick="toggleGenreOptions()"> Limit Genre
+            <fieldset id="genreOptions" style="display: none; max-width: 500px;">
+                <legend>Include Selected Genres</legend>
+                <table>
+                    <tr>
+                        <td><input id="checkBoxComputer" type="checkbox" checked="checked"> Computer</td>
+                        <td><input id="checkBoxFantasy" type="checkbox" checked="checked"> Fantasy</td>
+                        <td><input id="checkBoxHorror" type="checkbox" checked="checked"> Horror</td>
+                        <td><input id="checkBoxRomance" type="checkbox" checked="checked"> Romance</td>
+                        <td><input id="checkBoxScienceFiction" type="checkbox" checked="checked"> Science Fiction</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </fieldset>
     </div>
+</div>
+<div class="padded">
+    <h2>Listed Books</h2>
+    <ul id="book" style="max-width: 500px;"/>
+</div>
 
-    
 
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-    <script>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
 //Globals
-        var uri = 'api/book';
-        var advancedSearch = false;
+    var uri = 'api/book';
+    var advancedSearch = false;
 
 //Fill startpage with all books.
-    $(document).ready(function () {
-      // Send an AJAX request
-      $.getJSON(uri)
-          .done(function (data) {
-            // On success, 'data' contains a list of all books.
-              $.each(data, function (key, item) {
-                  // Add html item for each book.
-                  var html = formatItem(item);
-                  var newItem = $('<fieldset>', { html : html }).add('<span style="display:block; height: 25px;">', {});
-                newItem.appendTo($('#book'));
+    $(document).ready(function() {
+        // Send an AJAX request
+        $.getJSON(uri)
+            .done(function(data) {
+                // On success, 'data' contains a list of all books.
+                $.each(data,
+                    function(key, item) {
+                        // Add html item for each book.
+                        var html = formatItem(item);
+                        var newItem = $('<fieldset>', { html: html })
+                            .add('<span style="display:block; height: 25px;">', {});
+                        newItem.appendTo($('#book'));
+                    });
             });
-          });
     });
 
-        //Formats a book item to be added on the page.
+    //Formats a book item to be added on the page.
     function formatItem(item) {
-        var html = '<h3 id="title">' + item.title + '</h3>' +
-                      '<i id="authoranddate">' + "By " + item.author + " (" + item.publish_date + ")" + '</i>' +
-                      '<strong id="price" style="float: right">' + "Price " + item.price + "$" + '</strong>' +
-                      '</br>' +
-                      '<small id="genre">' + "&emsp;  Genre (" + item.genre + ")" + '</small>' +
-                      '<span style="display:block; height: 25px;"></span>' +
-                      '<div id="description">' + item.description + '</div>';
+        var html = '<h3 id="title">' +
+            item.title +
+            '</h3>' +
+            '<i id="authoranddate">' +
+            "By " +
+            item.author +
+            " (" +
+            item.publish_date +
+            ")" +
+            '</i>' +
+            '<strong id="price" style="float: right">' +
+            "Price " +
+            item.price +
+            "$" +
+            '</strong>' +
+            '</br>' +
+            '<small id="genre">' +
+            "&emsp;  Genre (" +
+            item.genre +
+            ")" +
+            '</small>' +
+            '<span style="display:block; height: 25px;"></span>' +
+            '<div id="description">' +
+            item.description +
+            '</div>';
         return html;
-        }
+    }
 
-        //Search function when clicking search button
+    //Search function when clicking search button
     function search() {
         //Fetching variables
         var searchString = "";
@@ -144,38 +160,72 @@
         var genreHorror = $("#checkBoxHorror").is(':checked');
         var genreRomance = $("#checkBoxRomance").is(':checked');
         var genreScienceFiction = $("#checkBoxScienceFiction").is(':checked');
-        
+
         //Request filtered collection of books.
-        $.getJSON(uri + '/' + advancedSearch + '/' + useTitle + '/' + useAuthor + '/' + useDescription + '/' + limitPrice + '/' + minPrice + '/' + maxPrice
-            + '/' + limitDate + '/' + minDate + '/' + maxDate + '/' + limitGenre + '/' + genreComputer + '/' + genreFantasy + '/' + genreHorror + '/' + genreRomance + '/' + genreScienceFiction + '/' + searchString)
-          .done(function (data) {
-              // On success, 'data' contains a list filtered books.
-              //Remove all old data from book tag.
-              $('#book').empty();
-              $.each(data, function (key, item) {
-                  // Add html item for each book.
-                  var html = formatItem(item);
-                  var newItem = $('<fieldset>', { html : html }).add('<span style="display:block; height: 25px;">', {});
-                  newItem.appendTo($('#book'));
-              });
-          })
-          .fail(function (jqXHR, textStatus, err) {
-            $('#book').text('Error: ' + err);
-          });
+        $.getJSON(uri +
+                '/' +
+                advancedSearch +
+                '/' +
+                useTitle +
+                '/' +
+                useAuthor +
+                '/' +
+                useDescription +
+                '/' +
+                limitPrice +
+                '/' +
+                minPrice +
+                '/' +
+                maxPrice +
+                '/' +
+                limitDate +
+                '/' +
+                minDate +
+                '/' +
+                maxDate +
+                '/' +
+                limitGenre +
+                '/' +
+                genreComputer +
+                '/' +
+                genreFantasy +
+                '/' +
+                genreHorror +
+                '/' +
+                genreRomance +
+                '/' +
+                genreScienceFiction +
+                '/' +
+                searchString)
+            .done(function(data) {
+                // On success, 'data' contains a list filtered books.
+                //Remove all old data from book tag.
+                $('#book').empty();
+                $.each(data,
+                    function(key, item) {
+                        // Add html item for each book.
+                        var html = formatItem(item);
+                        var newItem = $('<fieldset>', { html: html })
+                            .add('<span style="display:block; height: 25px;">', {});
+                        newItem.appendTo($('#book'));
+                    });
+            })
+            .fail(function(jqXHR, textStatus, err) {
+                $('#book').text('Error: ' + err);
+            });
     }
 
-        //Workaround because of javascript's loose values on for example datepicker value. Which returns false if not set, and the date if set.
+    //Workaround because of javascript's loose values on for example datepicker value. Which returns false if not set, and the date if set.
     function dateDefaulterWorkaround(elementID, defaultValue) {
         if (document.getElementById(elementID).value) {
             var date = document.getElementById(elementID).value.toString();
-        }
-        else {
+        } else {
             var date = defaultValue;
         }
         return date;
     }
 
-        //Toggles visibility on the page for the advanced search options.
+    //Toggles visibility on the page for the advanced search options.
     function toggleAdvancedSearch() {
         var x = document.getElementById("advancedSearch");
         var b = document.getElementById("enableSearchOptionsButton");
@@ -190,22 +240,22 @@
         }
     }
 
-        //Toggles price visibility.
+    //Toggles price visibility.
     function togglePriceOptions() {
         toggleOptions("togglePriceOptions", "priceOptions");
     }
 
-        //Toggles date visibility
+    //Toggles date visibility
     function toggleDateOptions() {
         toggleOptions("toggleDateOptions", "dateOptions");
     }
 
-        //Toggles genres visibility
+    //Toggles genres visibility
     function toggleGenreOptions() {
         toggleOptions("toggleGenreOptions", "genreOptions");
     }
 
-        //Toggles visibility of tag with 'ToggleObjectID'-ID depending on checkbox with 'ToggleCheckBoxID'-ID. Returns visibility.
+    //Toggles visibility of tag with 'ToggleObjectID'-ID depending on checkbox with 'ToggleCheckBoxID'-ID. Returns visibility.
     function toggleOptions(ToggleCheckBoxID, ToggleObjectID) {
         var x = document.getElementById(ToggleCheckBoxID);
         var y = document.getElementById(ToggleObjectID);
@@ -218,7 +268,7 @@
         }
     }
 
-       //Setting slider indicator's default values.
+    //Setting slider indicator's default values.
     var minPriceSlider = document.getElementById("minPriceSlider");
     var minPrice = document.getElementById("minPrice");
     minPrice.innerHTML = minPriceSlider.value;
@@ -227,14 +277,13 @@
     var maxPrice = document.getElementById("maxPrice");
     maxPrice.innerHTML = maxPriceSlider.value;
 
-        //Linking sliders to change the indicator's value on input change.
-    minPriceSlider.oninput = function () {
+    //Linking sliders to change the indicator's value on input change.
+    minPriceSlider.oninput = function() {
         minPrice.innerHTML = this.value;
-    }
-    maxPriceSlider.oninput = function () {
+    };
+    maxPriceSlider.oninput = function() {
         maxPrice.innerHTML = this.value;
-    }
-
-    </script>
+    };
+</script>
 </body>
 </html>

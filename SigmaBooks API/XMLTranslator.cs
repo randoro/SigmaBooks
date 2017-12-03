@@ -1,27 +1,17 @@
-using SigmaBooks_API.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Web;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using System.Xml.XPath;
 
 namespace SigmaBooks_API
 {
     /// <summary>
-    /// Generic Translator class for all XML files.
+    ///     Generic Translator class for all XML files.
     /// </summary>
     public class XMLTranslator
     {
         /// <summary>
-        /// Serialize value and write it to an XML file at fullpath location.
+        ///     Serialize value and write it to an XML file at fullpath location.
         /// </summary>
         /// <typeparam name="T">Type of object serialized.</typeparam>
         /// <param name="fullPath">Path and filename to create the new XML file.</param>
@@ -31,10 +21,10 @@ namespace SigmaBooks_API
         {
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(T));
                 TextWriter writer = new StreamWriter(fullPath);
-                serializer.UnknownNode += new XmlNodeEventHandler(UnknownNode);
-                serializer.UnknownAttribute += new XmlAttributeEventHandler(UnknownAttribute);
+                serializer.UnknownNode += UnknownNode;
+                serializer.UnknownAttribute += UnknownAttribute;
 
                 serializer.Serialize(writer, value);
                 writer.Close();
@@ -47,7 +37,7 @@ namespace SigmaBooks_API
         }
 
         /// <summary>
-        /// Deserialize file from fullpath and create object T from it.
+        ///     Deserialize file from fullpath and create object T from it.
         /// </summary>
         /// <typeparam name="T">Type of object to create.</typeparam>
         /// <param name="fullPath">Path and filename of the XML file being deserialized.</param>
@@ -57,18 +47,18 @@ namespace SigmaBooks_API
         {
             try
             {
-                XmlSerializer deserializer = new XmlSerializer(typeof(T));
+                var deserializer = new XmlSerializer(typeof(T));
                 TextReader reader = new StreamReader(fullPath);
-                deserializer.UnknownNode += new XmlNodeEventHandler(UnknownNode);
-                deserializer.UnknownAttribute += new XmlAttributeEventHandler(UnknownAttribute);
+                deserializer.UnknownNode += UnknownNode;
+                deserializer.UnknownAttribute += UnknownAttribute;
 
-                object obj = deserializer.Deserialize(reader);
+                var obj = deserializer.Deserialize(reader);
                 reader.Close();
-                T xmlData = (T)obj;
+                var xmlData = (T) obj;
                 success = true;
                 return xmlData;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 success = false;
                 return null;
@@ -76,7 +66,7 @@ namespace SigmaBooks_API
         }
 
         /// <summary>
-        /// Event raised when unknown XML node is found in file/objects.
+        ///     Event raised when unknown XML node is found in file/objects.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -86,15 +76,15 @@ namespace SigmaBooks_API
         }
 
         /// <summary>
-        /// Event raised when unknown XML attribute is found in file/objects.
+        ///     Event raised when unknown XML attribute is found in file/objects.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private static void UnknownAttribute(object sender, XmlAttributeEventArgs e)
         {
-            System.Xml.XmlAttribute attr = e.Attr;
+            var attr = e.Attr;
             Debug.WriteLine("Unknown attribute " +
-            attr.Name + "='" + attr.Value + "'");
+                            attr.Name + "='" + attr.Value + "'");
         }
     }
 }

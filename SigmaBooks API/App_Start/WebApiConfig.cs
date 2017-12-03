@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 
 namespace SigmaBooks_API
@@ -15,9 +12,10 @@ namespace SigmaBooks_API
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{advancedSearch}/{useTitle}/{useAuthor}/{useDescription}/{limitPrice}/{minPrice}/{maxPrice}/{limitDate}/{minDate}/{maxDate}/{limitGenre}/{genreComputer}/{genreFantasy}/{genreHorror}/{genreRomance}/{genreScienceFiction}/{searchString}",
-                defaults: new {
+                "DefaultApi",
+                "api/{controller}/{advancedSearch}/{useTitle}/{useAuthor}/{useDescription}/{limitPrice}/{minPrice}/{maxPrice}/{limitDate}/{minDate}/{maxDate}/{limitGenre}/{genreComputer}/{genreFantasy}/{genreHorror}/{genreRomance}/{genreScienceFiction}/{searchString}",
+                new
+                {
                     advancedSearch = RouteParameter.Optional,
                     useTitle = RouteParameter.Optional,
                     useAuthor = RouteParameter.Optional,
@@ -38,7 +36,5 @@ namespace SigmaBooks_API
                 }
             );
         }
-
-        
     }
 }
